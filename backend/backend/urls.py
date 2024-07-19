@@ -5,20 +5,22 @@ from django.urls import include, path
 from rest_framework import routers, serializers, viewsets
 
 # Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'is_staff']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
 
-class AttendeeSerializer(serializers.HyperlinkedModelSerializer):
+class AttendeeSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     class Meta:
         model = Attendee
-        fields = ['year', 'user', 'days_attending', 'camping_type']
+        fields = ['year', 'user', 'days_attending', 'camping_type', 'expense_share_weight', 'electric_expense_share_weight', 'share_of_paid_expenses']
 
-class ExpenseSerializer(serializers.HyperlinkedModelSerializer):
+class ExpenseSerializer(serializers.ModelSerializer):
+    paid_by = AttendeeSerializer()
     class Meta:
         model = Expense
-        fields = ['name', 'amount', 'date', 'description', 'paid_by']
+        fields = ['id', 'name', 'amount', 'date', 'description', 'paid_by']
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):

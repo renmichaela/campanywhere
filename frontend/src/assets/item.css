@@ -1,0 +1,7 @@
+.flex {
+  display: flex;
+  justify-content: space-between;
+  border-color: var(--color-text-light);
+  border-style: dotted;
+  border-width: 0 0 2px 0;
+}
