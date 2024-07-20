@@ -1,3 +1,4 @@
 node_modules
 *.sqlite#
 backend/*.sqlite3
+*.env
