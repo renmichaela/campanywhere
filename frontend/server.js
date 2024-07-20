@@ -1,16 +1,8 @@
-import express from 'express'
-import path from 'path'
-import history from 'connect-history-api-fallback'
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Handle SPA history mode
-app.use(history());
-
-// Serve static files from the Vue app build directory
-app.use(express.static(path.join(__dirname, 'dist')));
-
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+console.log('__dirname:', __dirname);
+console.log('__filename:', __filename);
