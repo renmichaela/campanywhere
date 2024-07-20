@@ -1,13 +1,9 @@
 # Use an official Python runtime as a parent image
-FROM python:3.12-slim
+FROM python:3.12
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
-RUN apt-get update && \
-    apt-get install -y libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
 
 # Set work directory
 WORKDIR /app
