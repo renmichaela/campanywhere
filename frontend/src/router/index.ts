@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ExpensesView from '../views/ExpensesView.vue'
 import AttendeesView from '../views/AttendeesView.vue'
 import ExpensesHeader from '../components/headers/ExpensesHeader.vue'
+import HomeHeader from '../components/headers/HomeHeader.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +11,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      components: {
+        default: HomeView,
+        Header: HomeHeader
+      }
     },
     {
       path: '/expenses',
