@@ -13,11 +13,7 @@ const port = 3000;
 
 // Serve static files from a directory named 'public'
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Define a route
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Start the server
 app.listen(port, () => {
