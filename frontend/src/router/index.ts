@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ExpensesView from '../views/ExpensesView.vue'
 import AttendeesView from '../views/AttendeesView.vue'
+import ExpensesHeader from '../components/headers/ExpensesHeader.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +15,10 @@ const router = createRouter({
     {
       path: '/expenses',
       name: 'expenses',
-      component: ExpensesView
+      components: {
+        default: ExpensesView,
+        Header: ExpensesHeader
+      }
     },
     {
       path: '/attendees',

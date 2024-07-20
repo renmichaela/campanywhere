@@ -14,13 +14,26 @@ class AttendeeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Attendee
-        fields = ['year', 'user', 'days_attending', 'camping_type', 'expense_share_weight', 'electric_expense_share_weight', 'share_of_paid_expenses']
+        fields = [
+            'year',
+            'user',
+            'days_attending',
+            'camping_type',
+            'camping_expense_share_weight',
+            'electric_expense_share_weight',
+            'share_of_camping_expenses',
+            'share_of_paid_camping_expenses',
+            'share_of_electric_expenses',
+            'share_of_paid_electric_expenses',
+            'share_of_all_paid_expenses',
+            'share_of_all_expenses'
+        ]
 
 class ExpenseSerializer(serializers.ModelSerializer):
     paid_by = AttendeeSerializer()
     class Meta:
         model = Expense
-        fields = ['id', 'name', 'amount', 'date', 'description', 'paid_by']
+        fields = ['id', 'name', 'type', 'amount', 'date', 'description', 'paid_by', 'type_label']
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):

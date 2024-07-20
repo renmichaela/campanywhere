@@ -9,15 +9,21 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/expenses">Expenses</RouterLink>
       <RouterLink to="/attendees">Attendees</RouterLink>
     </nav>
+      <RouterView name="Header" />
   </header>
 
   <RouterView />
 </template>
 
-<style scoped>
+<style>
 header {
   line-height: 1.5;
   max-height: 100vh;
+}
+
+header aside p {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 nav {
@@ -43,6 +49,13 @@ nav a {
 @media (min-width: 1024px) {
   header {
     padding-right: calc(var(--section-gap) / 2);
+  }
+
+  header aside {
+    text-align: right;
+    padding: 1rem;
+    padding-left: 2rem;
+    margin-top: 1rem;
   }
 
   .logo {

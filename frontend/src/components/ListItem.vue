@@ -1,9 +1,26 @@
+<script setup>
+defineProps({
+  itemStyle: {
+    type: Object,
+    default() {
+      return {};
+    }
+  },
+  itemDetailsStyle : {
+    type: Object,
+    default() {
+      return {};
+    }
+  }
+})
+</script>
+
 <template>
-  <div class="item">
+  <div class="item" :style="itemStyle">
     <i>
       <slot name="icon"></slot>
     </i>
-    <div class="details">
+    <div class="details" :style="itemDetailsStyle">
       <div class="heading">
         <h3>
           <slot name="heading"></slot>
