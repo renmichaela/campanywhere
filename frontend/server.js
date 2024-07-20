@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 // Initialize express app
 const app = express();
-const port = 3000;
+const port = 8080;
 
 // Serve static files from a directory named 'public'
 app.use(express.static(path.join(__dirname, 'public')));
