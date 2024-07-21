@@ -23,7 +23,7 @@ class Attendee(models.Model):
 	camping_type = models.CharField(max_length=50,choices=CAMPING_TYPES)
 
 	def __str__(self):
-		return self.user.get_short_name()
+		return self.user.first_name or self.user.get_short_name()
 	
 	def camping_expense_share_weight(self):
 		total_days = Attendee.objects.aggregate(Sum('days_attending'))['days_attending__sum']
