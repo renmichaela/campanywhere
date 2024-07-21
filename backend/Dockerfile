@@ -15,7 +15,5 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy the current directory contents into the container at /app/
 COPY . /app/
 
-RUN python manage.py collectstatic --noinput
-
 # Run the application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi:application"]

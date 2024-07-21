@@ -151,7 +151,7 @@ AWS_S3_ENDPOINT_URL = os.getenv('DO_SPACES_BUCKET_ENDPOINT')
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
-AWS_LOCATION = 'your-spaces-files-folder'
+AWS_LOCATION = 'static'
 
 STATIC_URL = os.getenv('DO_SPACES_BUCKET_CDN')
 
