@@ -1,13 +1,13 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
 import ListItem from '../components/ListItem.vue';
-import SupportIcon from '../components/icons/IconSupport.vue'
+import SupportIcon from '../components/icons/IconSupport.vue';
 
 const attendees = ref([]);
 const search = ref('');
 
 onMounted(() => {
-  fetch('http://localhost:8000/attendees')
+  fetch(`${import.meta.env.VITE_API_URL}/attendees`)
     .then(response => response.json())
     .then(data => attendees.value = data);
 });

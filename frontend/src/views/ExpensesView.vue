@@ -12,7 +12,7 @@ const electric_expenses_unpaid = computed(() => expenses.value.filter(e => !e.pa
 const total_electric_expenses = computed(() => expenses.value.filter(e => e.type == "ELECTRIC").reduce((acc, expense) => acc + parseFloat(expense.amount), 0));
 
 onMounted(() => {
-  fetch('http://localhost:8000/expenses')
+  fetch(`${import.meta.env.VITE_API_URL}/expenses`)
     .then(response => response.json())
     .then(data => expenses.value = data);
 });
