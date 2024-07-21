@@ -34,11 +34,11 @@ class Attendee(models.Model):
 		return Decimal(self.days_attending / days_of_same_type)
 	
 	def share_of_camping_expenses(self):
-		camping_expenses_sum = Expense.objects.filter(type='CAMPING').aggregate(Sum('amount'))['amount__sum']
+		camping_expenses_sum = Expense.objects.filter(type='CAMPING').aggregate(Sum('amount'))['amount__sum'] or 0
 		return round(self.camping_expense_share_weight() * camping_expenses_sum, 2)
 	
 	def share_of_paid_camping_expenses(self):
-		paid_expenses_sum = Expense.objects.filter(type='CAMPING').filter(paid_by__isnull=False).aggregate(Sum('amount'))['amount__sum']
+		paid_expenses_sum = Expense.objects.filter(type='CAMPING').filter(paid_by__isnull=False).aggregate(Sum('amount'))['amount__sum'] or 0
 		return round(self.camping_expense_share_weight() * paid_expenses_sum, 2)
 	
 	def share_of_electric_expenses(self):
@@ -46,7 +46,7 @@ class Attendee(models.Model):
 		camping_type_class = getattr(camping_type_module, self.camping_type.capitalize() + 'Camping')
 		camping_type = camping_type_class()
 		expenses = Expense.objects.filter(type='ELECTRIC')
-		expenses_sum = sum([expense.cost(camping_type) for expense in expenses])
+		expenses_sum = sum([expense.cost(camping_type) for expense in expenses]) or 0
 		return round(self.electric_expense_share_weight() * expenses_sum, 2)
 	
 	def share_of_paid_electric_expenses(self):
@@ -54,7 +54,7 @@ class Attendee(models.Model):
 		camping_type_class = getattr(camping_type_module, self.camping_type.capitalize() + 'Camping')
 		camping_type = camping_type_class()
 		paid_expenses = Expense.objects.filter(type='ELECTRIC').filter(paid_by__isnull=False)
-		paid_expenses_sum = sum([expense.cost(camping_type) for expense in paid_expenses])
+		paid_expenses_sum = sum([expense.cost(camping_type) for expense in paid_expenses]) or 0
 		return round(self.electric_expense_share_weight() * paid_expenses_sum, 2)
 
 	def share_of_all_paid_expenses(self):
