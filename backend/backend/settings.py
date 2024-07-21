@@ -125,7 +125,8 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'https://monkfish-app-8mr5g.ondigitalocean.app'
 ]
 
 
