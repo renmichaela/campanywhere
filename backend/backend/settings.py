@@ -129,6 +129,12 @@ CORS_ALLOWED_ORIGINS = [
     'https://monkfish-app-8mr5g.ondigitalocean.app'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8080',
+    'http://localhost:5173',
+    'https://monkfish-app-8mr5g.ondigitalocean.app'
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
