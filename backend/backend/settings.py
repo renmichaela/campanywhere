@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -143,9 +144,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+AWS_ACCESS_KEY_ID = os.getenv('DO_SPACES_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.getenv('DO_SPACES_SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('DO_SPACES_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL = os.getenv('DO_SPACES_BUCKET_ENDPOINT')
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'your-spaces-files-folder'
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = os.getenv('DO_SPACES_BUCKET_CDN')
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
