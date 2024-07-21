@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-+lg8az20(zji%%wo5zy1g4=q57zfyid(r$_f6h+7u6^(v!iuui
 DEBUG = True
 
 ALLOWED_HOSTS = [
+  'localhost',
   'monkfish-app-8mr5g.ondigitalocean.app'
 ]
 
@@ -85,13 +86,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'digital_ocean': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASS'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
-    }
+    },
 }
 
 
