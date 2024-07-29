@@ -83,3 +83,12 @@ class Expense(models.Model):
 		
 	def type_label(self):
 		return dict(EXPENSE_TYPES)[self.type]
+	
+class Payment(models.Model):
+	attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE)
+	amount = models.DecimalField(max_digits=10, decimal_places=2)
+	date = models.DateField()
+	description = models.CharField(max_length=255, null=True, blank=True)
+	
+	def __str__(self):
+		return self.attendee.user.first_name or self.attendee.user.get_short_name()
