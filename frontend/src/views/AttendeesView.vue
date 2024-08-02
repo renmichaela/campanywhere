@@ -24,7 +24,7 @@ const sortedAttendees = computed(() => {
 });
 
 const getTotalOwed = (attendee) => {
-  return Math.round((attendee.share_of_camping_expenses + attendee.share_of_paid_camping_expenses + attendee.share_of_electric_expenses + attendee.share_of_paid_electric_expenses) * 100) / 100;
+  return Math.round((attendee.share_of_camping_expenses + attendee.share_of_electric_expenses) * 100) / 100;
 };
 </script>
 
@@ -49,7 +49,7 @@ const getTotalOwed = (attendee) => {
             <p class="flex"><strong>Camping Cost Share:</strong> <span>{{ Math.round(attendee.camping_expense_share_weight * 100) }}%</span></p>
             <p class="flex"><strong>Owed for Camping Expenses:</strong> <span>${{ attendee.share_of_camping_expenses }}</span></p>
             <p class="flex"><strong>Electric Cost Share:</strong> <span>{{ Math.round(attendee.electric_expense_share_weight * 100) }}%</span></p>
-            <p class="flex"><strong>Owed for Electric Expenses:</strong> <span>${{ attendee.share_of_paid_electric_expenses }}</span></p>
+            <p class="flex"><strong>Owed for Electric Expenses:</strong> <span>${{ attendee.share_of_electric_expenses }}</span></p>
           </div>
         </div>
       </div>
