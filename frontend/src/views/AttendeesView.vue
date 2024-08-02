@@ -47,11 +47,9 @@ const getTotalOwed = (attendee) => {
           </button>
           <div v-if="attendee.showDetails" class="details">
             <p class="flex"><strong>Camping Cost Share:</strong> <span>{{ Math.round(attendee.camping_expense_share_weight * 100) }}%</span></p>
-            <p class="flex"><strong>Owed for Paid Camping Expenses:</strong> <span>${{ attendee.share_of_paid_camping_expenses }}</span></p>
-            <p class="flex"><strong>Owed for All Camping Expenses:</strong> <span>${{ attendee.share_of_camping_expenses }}</span></p>
+            <p class="flex"><strong>Owed for Camping Expenses:</strong> <span>${{ attendee.share_of_camping_expenses }}</span></p>
             <p class="flex"><strong>Electric Cost Share:</strong> <span>{{ Math.round(attendee.electric_expense_share_weight * 100) }}%</span></p>
-            <p class="flex"><strong>Owed for Paid Electric Expenses:</strong> <span>${{ attendee.share_of_electric_expenses }}</span></p>
-            <p class="flex"><strong>Owed for All Electric Expenses:</strong> <span>${{ attendee.share_of_paid_electric_expenses }}</span></p>
+            <p class="flex"><strong>Owed for Electric Expenses:</strong> <span>${{ attendee.share_of_paid_electric_expenses }}</span></p>
           </div>
         </div>
       </div>
