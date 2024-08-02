@@ -10,13 +10,15 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name']
 
-class PaymentListingField(serializers.RelatedField):
-    def to_representation(self, value):
-        return value.amount
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ['amount', 'date']
 
 class AttendeeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    payments = PaymentListingField(many=True, read_only=True)
+    payments = PaymentSerializer(many=True)
+
     class Meta:
         model = Attendee
         fields = [
@@ -32,6 +34,7 @@ class AttendeeSerializer(serializers.ModelSerializer):
             'share_of_paid_electric_expenses',
             'share_of_all_paid_expenses',
             'share_of_all_expenses',
+            'total_paid',
             'payments'
         ]
 

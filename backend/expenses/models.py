@@ -62,6 +62,9 @@ class Attendee(models.Model):
 	
 	def share_of_all_expenses(self):
 		return self.share_of_camping_expenses() + self.share_of_electric_expenses()
+	
+	def total_paid(self):
+		return sum([payment.amount for payment in self.payments.all()])
 
 # Create your models here.
 class Expense(models.Model):
@@ -85,7 +88,7 @@ class Expense(models.Model):
 		return dict(EXPENSE_TYPES)[self.type]
 	
 class Payment(models.Model):
-	attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE)
+	attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE, related_name='payments')
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
 	date = models.DateField()
 	description = models.CharField(max_length=255, null=True, blank=True)
