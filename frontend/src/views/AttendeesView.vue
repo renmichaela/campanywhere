@@ -35,7 +35,7 @@ const getTotalOwed = (attendee) => {
       <div v-for="attendee in sortedAttendees" :key="attendee.id" class="attendee-card">
         <div class="card-header">
           <!-- <SupportIcon /> -->
-          <div class="card-title">{{ attendee.user.first_name }} {{ attendee.user.last_name }}</div>
+          <div class="card-title green">{{ attendee.user.first_name }} {{ attendee.user.last_name }}</div>
         </div>
         <div class="card-body">
           <p class="flex"><strong>Camping Type:</strong> <span>{{ attendee.camping_type.charAt(0) + attendee.camping_type.substring(1).toLowerCase() }}</span></p>
