@@ -64,7 +64,7 @@ class Attendee(models.Model):
 		return self.share_of_camping_expenses() + self.share_of_electric_expenses()
 	
 	def total_paid(self):
-		return sum([payment.amount for payment in self.payments.all()])
+		return round(sum([payment.amount for payment in self.payments.all()]), 2)
 
 # Create your models here.
 class Expense(models.Model):

@@ -13,10 +13,6 @@ onMounted(() => {
     .then(data => {
       attendees.value = data.map(attendee => ({ ...attendee, showDetails: false }));
     });
-
-  fetch(`${import.meta.env.VITE_API_URL}/payments`)
-    .then(response => response.json())
-    .then(data => payments.value = data);
 });
 
 const sortedAttendees = computed(() => {
@@ -26,11 +22,6 @@ const sortedAttendees = computed(() => {
       || attendee.user.last_name.toLowerCase().includes(search.value.toLowerCase());
   });
 });
-
-const getTotalPaid = (attendeeId) => {
-  const payment = payments.value.find(payment => payment.attendee_id === attendeeId);
-  return payment ? Math.round(payment.total_paid * 100) / 100 : 0;
-};
 
 const getTotalOwed = (attendee) => {
   return Math.round((attendee.share_of_camping_expenses + attendee.share_of_paid_camping_expenses + attendee.share_of_electric_expenses + attendee.share_of_paid_electric_expenses) * 100) / 100;
@@ -50,7 +41,7 @@ const getTotalOwed = (attendee) => {
           <p><strong>Camping Type:</strong> {{ attendee.camping_type.charAt(0) + attendee.camping_type.substring(1).toLowerCase() }}</p>
           <p><strong>Days Attending:</strong> {{ attendee.days_attending }} day{{ attendee.days_attending > 1 ? 's' : '' }}</p>
           <p><strong>Total Owed:</strong> ${{ getTotalOwed(attendee) }}</p>
-          <p><strong>Total Paid:</strong> ${{ getTotalPaid(attendee.id) }}</p>
+          <p><strong>Total Paid:</strong> ${{ attendee.total_paid }}</p>
           <button @click="attendee.showDetails = !attendee.showDetails">
             {{ attendee.showDetails ? 'Hide Details' : 'Show Details' }}
           </button>
