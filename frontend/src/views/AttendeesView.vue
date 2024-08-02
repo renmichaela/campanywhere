@@ -104,6 +104,7 @@ input {
   display: flex;
   border-bottom: none;
   justify-content: space-between;
+  align-items: end
 }
 
 button {
