@@ -5,4 +5,5 @@ backend/*.sqlite3
 env-backend
 env-backend/*
 backend/staticfiles
+backend/backend/__pycache__
 *.pyc

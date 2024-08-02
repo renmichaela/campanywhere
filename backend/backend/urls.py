@@ -10,8 +10,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name']
 
+class PaymentListingField(serializers.RelatedField):
+    def to_representation(self, value):
+        return value.amount
+
 class AttendeeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    payments = PaymentListingField(many=True, read_only=True)
     class Meta:
         model = Attendee
         fields = [
@@ -26,7 +31,8 @@ class AttendeeSerializer(serializers.ModelSerializer):
             'share_of_electric_expenses',
             'share_of_paid_electric_expenses',
             'share_of_all_paid_expenses',
-            'share_of_all_expenses'
+            'share_of_all_expenses',
+            'payments'
         ]
 
 class ExpenseSerializer(serializers.ModelSerializer):
@@ -34,12 +40,6 @@ class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = ['id', 'name', 'type', 'amount', 'date', 'description', 'paid_by', 'type_label']
-
-class PaymentSerializer(serializers.ModelSerializer):
-    paid_by = AttendeeSerializer()
-    class Meta:
-        model = Payment
-        fields = ['id', 'amount', 'date', 'description', 'paid_by']
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
@@ -54,16 +54,11 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
-class PaymentViewSet(viewsets.ModelViewSet):
-    queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
-
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'attendees', AttendeeViewSet)
 router.register(r'expenses', ExpenseViewSet)
-router.register(r'payments', PaymentViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
