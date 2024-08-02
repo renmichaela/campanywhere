@@ -38,10 +38,10 @@ const getTotalOwed = (attendee) => {
           <div class="card-title">{{ attendee.user.first_name }} {{ attendee.user.last_name }}</div>
         </div>
         <div class="card-body">
-          <p><strong>Camping Type:</strong> {{ attendee.camping_type.charAt(0) + attendee.camping_type.substring(1).toLowerCase() }}</p>
-          <p><strong>Days Attending:</strong> {{ attendee.days_attending }} day{{ attendee.days_attending > 1 ? 's' : '' }}</p>
-          <p><strong>Total Owed:</strong> ${{ getTotalOwed(attendee) }}</p>
-          <p><strong>Total Paid:</strong> ${{ attendee.total_paid }}</p>
+          <p class="flex"><strong>Camping Type:</strong> <span>{{ attendee.camping_type.charAt(0) + attendee.camping_type.substring(1).toLowerCase() }}</span></p>
+          <p class="flex"><strong>Days Attending:</strong> <span>{{ attendee.days_attending }} day{{ attendee.days_attending > 1 ? 's' : '' }}</span></p>
+          <p class="flex"><strong>Total Owed:</strong> <span>${{ getTotalOwed(attendee) }}</span></p>
+          <p class="flex"><strong>Total Paid:</strong> <span>${{ attendee.total_paid }}</span></p>
           <button @click="attendee.showDetails = !attendee.showDetails">
             {{ attendee.showDetails ? 'Hide Details' : 'Show Details' }}
           </button>
