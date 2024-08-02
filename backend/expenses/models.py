@@ -30,14 +30,14 @@ class Attendee(models.Model):
 		if self.festival_virgin:
 			return 0.00
 		else:
-			total_days = Attendee.objects.aggregate(Sum('days_attending'))['days_attending__sum']
+			total_days = Attendee.objects.filter(festival_virgin=False).aggregate(Sum('days_attending'))['days_attending__sum']
 			return Decimal(self.days_attending / total_days)
 	
 	def electric_expense_share_weight(self):
 		if self.festival_virgin:
 			return 0.00
 		else:
-			days_of_same_type = Attendee.objects.filter(camping_type=self.camping_type).aggregate(Sum('days_attending'))['days_attending__sum']
+			days_of_same_type = Attendee.objects.filter(festival_virgin=False).filter(camping_type=self.camping_type).aggregate(Sum('days_attending'))['days_attending__sum']
 			return Decimal(self.days_attending / days_of_same_type)
 	
 	def share_of_camping_expenses(self):
