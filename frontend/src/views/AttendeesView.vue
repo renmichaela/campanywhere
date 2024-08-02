@@ -36,6 +36,7 @@ const getTotalOwed = (attendee) => {
         <div class="card-header">
           <!-- <SupportIcon /> -->
           <div class="card-title green">{{ attendee.user.first_name }} {{ attendee.user.last_name }}</div>
+          <span v-if="attendee.festival_virgin" class="callout">FV</span>
         </div>
         <div class="card-body">
           <p class="flex"><strong>Camping Type:</strong> <span>{{ attendee.camping_type.charAt(0) + attendee.camping_type.substring(1).toLowerCase() }}</span></p>
@@ -86,6 +87,7 @@ input {
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+  justify-content: space-between;
 }
 
 .card-title {
@@ -125,6 +127,16 @@ button {
 
 .details {
   margin-top: 1rem;
+}
+
+.card-header .callout {
+  font-size: 0.6rem;
+  background-color: var(--color-green);
+  color: #000;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  margin-left: 0.5rem
 }
 
 @media screen and (min-width: 640px) {

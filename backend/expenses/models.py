@@ -21,47 +21,72 @@ class Attendee(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	days_attending = models.IntegerField()
 	camping_type = models.CharField(max_length=50,choices=CAMPING_TYPES)
+	festival_virgin = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.user.first_name or self.user.get_short_name()
 	
 	def camping_expense_share_weight(self):
-		total_days = Attendee.objects.aggregate(Sum('days_attending'))['days_attending__sum']
-		return Decimal(self.days_attending / total_days)
+		if self.festival_virgin:
+			return 0.00
+		else:
+			total_days = Attendee.objects.aggregate(Sum('days_attending'))['days_attending__sum']
+			return Decimal(self.days_attending / total_days)
 	
 	def electric_expense_share_weight(self):
-		days_of_same_type = Attendee.objects.filter(camping_type=self.camping_type).aggregate(Sum('days_attending'))['days_attending__sum']
-		return Decimal(self.days_attending / days_of_same_type)
+		if self.festival_virgin:
+			return 0.00
+		else:
+			days_of_same_type = Attendee.objects.filter(camping_type=self.camping_type).aggregate(Sum('days_attending'))['days_attending__sum']
+			return Decimal(self.days_attending / days_of_same_type)
 	
 	def share_of_camping_expenses(self):
-		camping_expenses_sum = Expense.objects.filter(type='CAMPING').aggregate(Sum('amount'))['amount__sum'] or 0
-		return round(self.camping_expense_share_weight() * camping_expenses_sum, 2)
+		if self.festival_virgin:
+			return 0.00
+		else:
+			camping_expenses_sum = Expense.objects.filter(type='CAMPING').aggregate(Sum('amount'))['amount__sum'] or 0
+			return round(self.camping_expense_share_weight() * camping_expenses_sum, 2)
 	
 	def share_of_paid_camping_expenses(self):
-		paid_expenses_sum = Expense.objects.filter(type='CAMPING').filter(paid_by__isnull=False).aggregate(Sum('amount'))['amount__sum'] or 0
-		return round(self.camping_expense_share_weight() * paid_expenses_sum, 2)
+		if self.festival_virgin:
+			return 0.00
+		else:
+			paid_expenses_sum = Expense.objects.filter(type='CAMPING').filter(paid_by__isnull=False).aggregate(Sum('amount'))['amount__sum'] or 0
+			return round(self.camping_expense_share_weight() * paid_expenses_sum, 2)
 	
 	def share_of_electric_expenses(self):
-		camping_type_module = importlib.import_module('expenses.camping_types')
-		camping_type_class = getattr(camping_type_module, self.camping_type.capitalize() + 'Camping')
-		camping_type = camping_type_class()
-		expenses = Expense.objects.filter(type='ELECTRIC')
-		expenses_sum = sum([expense.cost(camping_type) for expense in expenses]) or 0
-		return round(self.electric_expense_share_weight() * expenses_sum, 2)
+		if self.festival_virgin:
+			return 0.00
+		else:
+			camping_type_module = importlib.import_module('expenses.camping_types')
+			camping_type_class = getattr(camping_type_module, self.camping_type.capitalize() + 'Camping')
+			camping_type = camping_type_class()
+			expenses = Expense.objects.filter(type='ELECTRIC')
+			expenses_sum = sum([expense.cost(camping_type) for expense in expenses]) or 0
+			return round(self.electric_expense_share_weight() * expenses_sum, 2)
 	
 	def share_of_paid_electric_expenses(self):
-		camping_type_module = importlib.import_module('expenses.camping_types')
-		camping_type_class = getattr(camping_type_module, self.camping_type.capitalize() + 'Camping')
-		camping_type = camping_type_class()
-		paid_expenses = Expense.objects.filter(type='ELECTRIC').filter(paid_by__isnull=False)
-		paid_expenses_sum = sum([expense.cost(camping_type) for expense in paid_expenses]) or 0
-		return round(self.electric_expense_share_weight() * paid_expenses_sum, 2)
+		if self.festival_virgin:
+			return 0.00
+		else:
+			camping_type_module = importlib.import_module('expenses.camping_types')
+			camping_type_class = getattr(camping_type_module, self.camping_type.capitalize() + 'Camping')
+			camping_type = camping_type_class()
+			paid_expenses = Expense.objects.filter(type='ELECTRIC').filter(paid_by__isnull=False)
+			paid_expenses_sum = sum([expense.cost(camping_type) for expense in paid_expenses]) or 0
+			return round(self.electric_expense_share_weight() * paid_expenses_sum, 2)
 
 	def share_of_all_paid_expenses(self):
-		return self.share_of_paid_camping_expenses() + self.share_of_paid_electric_expenses()
+		if self.festival_virgin:
+			return 0.00
+		else:
+			return self.share_of_paid_camping_expenses() + self.share_of_paid_electric_expenses()
 	
 	def share_of_all_expenses(self):
-		return self.share_of_camping_expenses() + self.share_of_electric_expenses()
+		if self.festival_virgin:
+			return 0.00
+		else:
+			return self.share_of_camping_expenses() + self.share_of_electric_expenses()
 	
 	def total_paid(self):
 		return round(sum([payment.amount for payment in self.payments.all()]), 2)

@@ -26,6 +26,7 @@ class AttendeeSerializer(serializers.ModelSerializer):
             'user',
             'days_attending',
             'camping_type',
+            'festival_virgin',
             'camping_expense_share_weight',
             'electric_expense_share_weight',
             'share_of_camping_expenses',

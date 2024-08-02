@@ -100,9 +100,6 @@ const sortedExpenses = computed(() => expenses.value.sort((a, b) => a.date - b.d
   justify-content: space-between;
 }
 
-.expense-description {
-}
-
 .expense-paid-by {
   font-size: 0.8rem;
   color: var(--color-text-light);
