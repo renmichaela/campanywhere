@@ -92,6 +92,13 @@ input {
   font-weight: bold;
 }
 
+.card-body button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
 .card-body p {
   margin: 0.5rem 0;
   font-size: 1rem;
