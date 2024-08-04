@@ -23,8 +23,16 @@ const sortedAttendees = computed(() => {
   });
 });
 
-const getTotalOwed = (attendee) => {
+const getRunningTotalOwed = (attendee) => {
+  return Math.round((attendee.share_of_paid_camping_expenses + attendee.share_of_paid_electric_expenses) * 100) / 100;
+};
+
+const getProjectedTotalOwed = (attendee) => {
   return Math.round((attendee.share_of_camping_expenses + attendee.share_of_electric_expenses) * 100) / 100;
+};
+
+const getOutstandingBalance = (attendee) => {
+  return Math.round((getProjectedTotalOwed(attendee) - attendee.total_paid) * 100) / 100;
 };
 </script>
 
@@ -41,7 +49,8 @@ const getTotalOwed = (attendee) => {
         <div class="card-body">
           <p class="flex"><strong>Camping Type:</strong> <span>{{ attendee.camping_type.charAt(0) + attendee.camping_type.substring(1).toLowerCase() }}</span></p>
           <p class="flex"><strong>Days Attending:</strong> <span>{{ attendee.days_attending }} day{{ attendee.days_attending > 1 ? 's' : '' }}</span></p>
-          <p class="flex"><strong>Total Owed:</strong> <span>${{ getTotalOwed(attendee) }}</span></p>
+          <p class="flex"><strong>Running Total Owed:</strong> <span>${{ getRunningTotalOwed(attendee) }}</span></p>
+          <p class="flex"><strong>Projected Total Owed:</strong> <span>${{ getProjectedTotalOwed(attendee) }}</span></p>
           <p class="flex"><strong>Total Paid:</strong> <span>${{ attendee.total_paid }}</span></p>
           <button @click="attendee.showDetails = !attendee.showDetails">
             {{ attendee.showDetails ? 'Hide Details' : 'Show Details' }}
