@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from expenses.models import Attendee, Expense, Payment
+from expenses.models import Attendee, Expense, Payment, Reimbursement
 from django.urls import include, path
 from rest_framework import routers, serializers, viewsets
 
@@ -15,9 +15,15 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = Payment
         fields = ['amount', 'date']
 
+class ReimbursementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reimbursement
+        fields = ['amount', 'date']
+
 class AttendeeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     payments = PaymentSerializer(many=True)
+    reimbursements = ReimbursementSerializer(many=True)
 
     class Meta:
         model = Attendee
@@ -33,10 +39,14 @@ class AttendeeSerializer(serializers.ModelSerializer):
             'share_of_paid_camping_expenses',
             'share_of_electric_expenses',
             'share_of_paid_electric_expenses',
-            'share_of_all_paid_expenses',
-            'share_of_all_expenses',
-            'total_paid',
-            'payments'
+            'running_total_owed',
+            'projected_total_owed',
+            'group_costs_paid',
+            'total_payments_made',
+            'outstanding_balance',
+            'total_reimbursed',
+            'payments',
+            'reimbursements'
         ]
 
 class ExpenseSerializer(serializers.ModelSerializer):

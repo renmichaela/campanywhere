@@ -76,20 +76,30 @@ class Attendee(models.Model):
 			paid_expenses_sum = sum([expense.cost(camping_type) for expense in paid_expenses]) or 0
 			return round(self.electric_expense_share_weight() * paid_expenses_sum, 2)
 
-	def share_of_all_paid_expenses(self):
+	def running_total_owed(self):
 		if self.festival_virgin:
 			return 0.00
 		else:
-			return self.share_of_paid_camping_expenses() + self.share_of_paid_electric_expenses()
+			return round(self.share_of_paid_camping_expenses() + self.share_of_paid_electric_expenses(), 2)
 	
-	def share_of_all_expenses(self):
+	def projected_total_owed(self):
 		if self.festival_virgin:
 			return 0.00
 		else:
-			return self.share_of_camping_expenses() + self.share_of_electric_expenses()
+			return round(self.share_of_camping_expenses() + self.share_of_electric_expenses(), 2)
+		
+	# Total of all expenses paid by this attendee
+	def group_costs_paid(self):
+		return round(sum([expense.amount for expense in self.expenses.all()]), 2)
 	
-	def total_paid(self):
+	def total_payments_made(self):
 		return round(sum([payment.amount for payment in self.payments.all()]), 2)
+
+	def total_reimbursed(self):
+		return round(sum([reimbursement.amount for reimbursement in self.reimbursements.all()]), 2)
+
+	def outstanding_balance(self):
+		return round(self.running_total_owed() - self.group_costs_paid() - self.total_payments_made() + self.total_reimbursed(), 2)
 
 # Create your models here.
 class Expense(models.Model):
@@ -114,6 +124,15 @@ class Expense(models.Model):
 	
 class Payment(models.Model):
 	attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE, related_name='payments')
+	amount = models.DecimalField(max_digits=10, decimal_places=2)
+	date = models.DateField()
+	description = models.CharField(max_length=255, null=True, blank=True)
+	
+	def __str__(self):
+		return self.attendee.user.first_name or self.attendee.user.get_short_name()
+
+class Reimbursement(models.Model):
+	attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE, related_name='reimbursements')
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
 	date = models.DateField()
 	description = models.CharField(max_length=255, null=True, blank=True)
