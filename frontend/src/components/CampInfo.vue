@@ -21,9 +21,7 @@ import CommunityIcon from './icons/IconCommunity.vue'
       <template #icon>
         <CommunityIcon />
       </template>
-      <template #heading>
-        <span class="crossed-off">Preregistration</span>
-      </template>
+      <template #heading>Preregistration</template>
 
       <ul>
         <li>8am Monday, July 1</li>
