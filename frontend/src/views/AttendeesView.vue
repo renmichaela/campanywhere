@@ -51,9 +51,10 @@ const getOutstandingBalance = (attendee) => {
           <p class="flex"><strong>Days Attending:</strong> <span>{{ attendee.days_attending }} day{{ attendee.days_attending > 1 ? 's' : '' }}</span></p>
           <p class="flex"><strong>Running Total Owed:</strong> <span>${{ attendee.running_total_owed }}</span></p>
           <p class="flex"><strong>Projected Total Owed:</strong> <span>${{ attendee.projected_total_owed }}</span></p>
-          <p class="flex"><strong>Group Costs Paid:</strong> <span>${{ attendee.group_costs_paid }}</span></p>
-          <p class="flex"><strong>Total Payments Made:</strong> <span>${{ attendee.total_payments_made }}</span></p>
+          <p class="flex"><strong>Group Costs Paid:</strong> <span>-${{ attendee.group_costs_paid }}</span></p>
           <p class="flex"><strong>Total Reimbursed:</strong> <span>${{ attendee.total_reimbursed }}</span></p>
+          <p class="flex"><strong>Total Payments Made:</strong> <span>-${{ attendee.total_payments_made }}</span></p>
+          <hr>
           <p class="flex"><strong>Outstanding Balance:</strong> <span>${{ attendee.outstanding_balance }}</span></p>
           <button @click="attendee.showDetails = !attendee.showDetails">
             {{ attendee.showDetails ? 'Hide Details' : 'Show Details' }}
